@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBCore", "DBCore\DBCore.csproj", "{4A929136-417B-49B0-AA08-1F7553492109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeTest", "TicTacToeTest\TicTacToeTest.csproj", "{16735590-7893-4A73-B0A7-A8420652CBA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBCoreTest", "TicTacToeTest\DBCoreTest.csproj", "{16735590-7893-4A73-B0A7-A8420652CBA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

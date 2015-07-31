@@ -22,7 +22,8 @@ namespace Network {
 
 		private volatile bool isReadingClient;// Loop control variables for client reading thread
 
-		private const int SERVER_PORT = 12790;// Server port
+		private IPAddress LOCAL_HOST_ADDRESS = IPAddress.Parse("127.0.0.1");// Server Address
+		private const int SERVER_PORT = 55650;// Server port - Index numbers of developers 556 and 650
 
 		private NetworkStream serverSocketStream;// TCP  NetworkStream objects for client and server
 
@@ -63,7 +64,7 @@ namespace Network {
 
 				byte[] bytes = new byte[1024];
 				int bytesReceived = 0;
-				serverSocketStream.ReadTimeout = 100;
+				//serverSocketStream.ReadTimeout = 100;
 				isReadingClient = true;
 
 				while (isReadingClient) {
@@ -86,25 +87,7 @@ namespace Network {
 				}
 				Log.Info("ReadFromClient - Done reading");
 			} catch (Exception ex) {
-				Log.Error("Server.An error ocurred : " + ex.Message, ex);
-				//mainUI.DisconnectNetwork();
-			} finally {
-				try {
-					if (serverSocketStream != null) {
-						serverSocketStream.Close();
-						Log.Info("Server.serverSocketStream closed");
-					}
-					if (tcpClient != null) {
-						tcpClient.Close();
-						Log.Info("Server.tcpClient closed");
-					}
-					if (tcpListener != null) {
-						tcpListener.Stop();
-						Log.Info("Server.tcpListener closed");
-					}
-				} catch (Exception ex) {
-					Log.Error("Server.An error ocurred: " + ex.Message);
-				}
+				Log.Error("Server.An error ocurred : " + ex.Message);
 			}
 		}
 
@@ -126,7 +109,7 @@ namespace Network {
 					serverSocketStream.Flush();
 				}
 			} catch (Exception ex) {
-				Log.Error("Server.An error ocurred : " + ex.Message, ex);
+				Log.Error("Server.An error ocurred : " + ex.Message);
 				mainUI.DisconnectNetwork();
 			}
 		}
@@ -139,9 +122,25 @@ namespace Network {
 			try {
 				if (readClientThread != null) {
 					//readClientThread.Abort();
-					isReadingClient = false;
 					//readClientThread.Interrupt();
+					isReadingClient = false;
 					Log.Info("Server.readClientThread interrupted");
+				}
+				try {
+					if (serverSocketStream != null) {
+						serverSocketStream.Close();
+						Log.Info("Server.serverSocketStream closed");
+					}
+					if (tcpClient != null) {
+						tcpClient.Close();
+						Log.Info("Server.tcpClient closed");
+					}
+					if (tcpListener != null) {
+						tcpListener.Stop();
+						Log.Info("Server.tcpListener closed");
+					}
+				} catch (Exception ex) {
+					Log.Error("Server.An error ocurred: " + ex.Message);
 				}
 			} catch (Exception ex) {
 				Log.Error("Server.An error ocurred : " + ex.Message);

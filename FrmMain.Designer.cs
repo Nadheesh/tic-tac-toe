@@ -394,7 +394,7 @@
             this.mnuDifficultyNormal,
             this.mnuDifficultyHard});
 			this.mnuDifficulty.Name = "mnuDifficulty";
-			this.mnuDifficulty.Size = new System.Drawing.Size(152, 22);
+			this.mnuDifficulty.Size = new System.Drawing.Size(122, 22);
 			this.mnuDifficulty.Text = "Difficulty";
 			// 
 			// mnuDifficultyEasy
@@ -426,7 +426,7 @@
             this.toolStripSeparator2,
             this.mnuModeHvH});
 			this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
-			this.playerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.playerToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.playerToolStripMenuItem.Text = "Mode";
 			// 
 			// mnuModeCvH
@@ -458,7 +458,7 @@
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(119, 6);
 			// 
 			// networkToolStripMenuItem
 			// 
@@ -468,7 +468,7 @@
             this.toolStripSeparator4,
             this.disconnectToolStripMenuItem});
 			this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
-			this.networkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.networkToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.networkToolStripMenuItem.Text = "Network";
 			// 
 			// startServerToolStripMenuItem
@@ -481,12 +481,12 @@
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(119, 6);
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			// 
 			// pictureBox1
@@ -623,7 +623,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 
     }
 }

@@ -20,7 +20,7 @@ namespace Network {
 
 		private Thread readServerThread;// Thread for server reading
 
-		private const int SERVER_PORT = 12790;
+		private const int SERVER_PORT = 55650;// Server port - Index numbers of developers 556 and 650
 
 		private volatile bool isReadingServer = true;// Loop control variables for server reading thread
 
@@ -92,7 +92,7 @@ namespace Network {
 
 				byte[] bytes = new byte[1024];
 				int bytesReceived = 0;
-				clientSocketStream.ReadTimeout = 100;
+				//clientSocketStream.ReadTimeout = 100;
 				isReadingServer = true;
 
 				while (isReadingServer) {
@@ -114,22 +114,8 @@ namespace Network {
 				}
 				Log.Info("ReadFromServer - Done reading");
 			} catch (Exception ex) {
-				Log.Error("Client.An error ocurred: " + ex.Message, ex);
-				//mainUI.DisconnectNetwork();
-			} finally {
-				try {
-					if (clientSocketStream != null) {
-						clientSocketStream.Close();
-						Log.Info("Client.clientSocketStream closed");
-					}
-					if (tcpClient != null) {
-						tcpClient.Close();
-						Log.Info("Client.tcpClient closed");
-					}
-				} catch (Exception ex) {
-					Log.Error("Client.An error ocurred: " + ex.Message, ex);
-				}
-			}
+				Log.Error("Client.An error ocurred: " + ex.Message);
+			} 
 		}
 
 		/// <summary>
@@ -168,8 +154,20 @@ namespace Network {
 
 					Log.Info("Client.readServerThread interrupted");
 				}
+				try {
+					if (clientSocketStream != null) {
+						clientSocketStream.Close();
+						Log.Info("Client.clientSocketStream closed");
+					}
+					if (tcpClient != null) {
+						tcpClient.Close();
+						Log.Info("Client.tcpClient closed");
+					}
+				} catch (Exception ex) {
+					Log.Error("Client.An error ocurred: " + ex.Message);
+				}
 			} catch (Exception ex) {
-				Log.Error("Client.An error ocurred: " + ex.Message, ex);
+				Log.Error("Client.An error ocurred: " + ex.Message);
 			}
 
 		}
