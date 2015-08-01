@@ -53,11 +53,23 @@
     <Compile Include="Board.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Computer.cs" />
+    <Compile Include="FrmHighscores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmHighscores.Designer.cs">
+      <DependentUpon>FrmHighscores.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSelectPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSelectPlayer.Designer.cs">
+      <DependentUpon>FrmSelectPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="Human.cs" />

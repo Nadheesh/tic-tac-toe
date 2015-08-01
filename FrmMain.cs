@@ -14,6 +14,7 @@ namespace UI {
 		private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		Game ticTacToeGame;
 
+
 		//Network
 		private bool isClient;
 		private bool isServer;
@@ -25,6 +26,16 @@ namespace UI {
 		int mode;
 		int compDifficulty;
 
+		public string[] PlayerNames {
+			get;
+			set;
+		}
+
+		public string NetworkName {
+			get;
+			set;
+		}
+
 		public FrmMain() {
 
 			InitializeComponent();
@@ -34,12 +45,15 @@ namespace UI {
 			mnuModeCvH.Checked = false;
 			mnuModeHvC.Checked = true;
 			mnuModeHvH.Checked = false;
+			mnuModeNetwork.Checked = false;
 			compDifficulty = 1;
 			mnuDifficultyEasy.Checked = false;
 			mnuDifficultyHard.Checked = false;
 			mnuDifficultyNormal.Checked = true;
 
 			lblStatusPlayer.Text = "Not Started";
+
+			PlayerNames = new string[2] { "P1", "P2" };
 
 			//network
 			isClient = false;
@@ -57,31 +71,31 @@ namespace UI {
 				PictureBox p = (PictureBox)sender;
 				switch (p.Name) {
 					case "picGridCell1":
-						ticTacToeGame.humanPlayerInput(0, 0);
+						PlayCell("", 0, 0);
 						break;
 					case "picGridCell2":
-						ticTacToeGame.humanPlayerInput(0, 1);
+						PlayCell("", 0, 1);
 						break;
 					case "picGridCell3":
-						ticTacToeGame.humanPlayerInput(0, 2);
+						PlayCell("", 0, 2);
 						break;
 					case "picGridCell4":
-						ticTacToeGame.humanPlayerInput(1, 0);
+						PlayCell("", 1, 0);
 						break;
 					case "picGridCell5":
-						ticTacToeGame.humanPlayerInput(1, 1);
+						PlayCell("", 1, 1);
 						break;
 					case "picGridCell6":
-						ticTacToeGame.humanPlayerInput(1, 2);
+						PlayCell("", 1, 2);
 						break;
 					case "picGridCell7":
-						ticTacToeGame.humanPlayerInput(2, 0);
+						PlayCell("", 2, 0);
 						break;
 					case "picGridCell8":
-						ticTacToeGame.humanPlayerInput(2, 1);
+						PlayCell("", 2, 1);
 						break;
 					default:
-						ticTacToeGame.humanPlayerInput(2, 2);
+						PlayCell("", 2, 2);
 						break;
 				}
 			} else {
@@ -89,56 +103,86 @@ namespace UI {
 			}
 		}
 
-		private void mnuModeHvC_Click(object sender, EventArgs e) {
-			mode = 1;
-			mnuDifficulty.Enabled = true;
-			mnuModeCvH.Checked = false;
-			mnuModeHvC.Checked = true;
-			mnuModeHvH.Checked = false;
+		private void PlayCell(string s, int row, int column) {
+			if (this.mode == 3) {
+				if (s == ticTacToeGame.GetCurrentPlayer())
+					ticTacToeGame.HumanPlayerInput(row, column);
+				else if (s == "" && NetworkName == ticTacToeGame.GetCurrentPlayer()) {
+					ticTacToeGame.HumanPlayerInput(row, column);
+					SendNetworkCommand(row + " " + column);
+				}
+			} else
+				ticTacToeGame.HumanPlayerInput(row, column);
+
 		}
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e) {
-			ticTacToeGame.resetGame();
+			AddNewPlayer();
+		}
+
+		internal void AddNewPlayer() {
+			this.Enabled = false;
+			FrmSelectPlayer temp = new FrmSelectPlayer(this);
+			temp.Location = this.Location + new Size(this.Size.Width / 2, this.Size.Height / 2) - new Size(temp.Size.Width / 2, temp.Size.Height / 2);
+			temp.Visible = true;
+		}
+
+		internal void StartNewGame() {
+			ticTacToeGame.ResetGame();
 			if (mode == 0) {
-				ticTacToeGame.newHumanPlayer(0, "Player 1");
-				ticTacToeGame.newHumanPlayer(1, "Player 2");
+				ticTacToeGame.NewHumanPlayer(0, PlayerNames[0]);
+				GameScoreController.AddNewUser(PlayerNames[0]);
+
+				ticTacToeGame.NewHumanPlayer(1, PlayerNames[1]);
+				GameScoreController.AddNewUser(PlayerNames[1]);
 			} else if (mode == 1) {
-				ticTacToeGame.newHumanPlayer(0, "Player 1");
+				ticTacToeGame.NewHumanPlayer(0, PlayerNames[0]);
+				GameScoreController.AddNewUser(PlayerNames[0]);
 				if (compDifficulty == 0) {
-					ticTacToeGame.newComputerPlayer(1, Difficulty.Easy);
+					ticTacToeGame.NewComputerPlayer(1, Difficulty.Easy);
 				} else if (compDifficulty == 1) {
-					ticTacToeGame.newComputerPlayer(1, Difficulty.Medium);
+					ticTacToeGame.NewComputerPlayer(1, Difficulty.Medium);
 				} else {
-					ticTacToeGame.newComputerPlayer(1, Difficulty.Hard);
+					ticTacToeGame.NewComputerPlayer(1, Difficulty.Hard);
 				}
+				GameScoreController.AddNewUser("Computer");
+			} else if (mode == 2) {
+				if (compDifficulty == 0) {
+					ticTacToeGame.NewComputerPlayer(0, Difficulty.Easy);
+				} else if (compDifficulty == 1) {
+					ticTacToeGame.NewComputerPlayer(0, Difficulty.Medium);
+				} else {
+					ticTacToeGame.NewComputerPlayer(0, Difficulty.Hard);
+				}
+				GameScoreController.AddNewUser("Computer");
+
+				ticTacToeGame.NewHumanPlayer(1, PlayerNames[0]);
+				GameScoreController.AddNewUser(PlayerNames[0]);
 			} else {
-				if (compDifficulty == 0) {
-					ticTacToeGame.newComputerPlayer(0, Difficulty.Easy);
-				} else if (compDifficulty == 1) {
-					ticTacToeGame.newComputerPlayer(0, Difficulty.Medium);
-				} else {
-					ticTacToeGame.newComputerPlayer(0, Difficulty.Hard);
-				}
-				ticTacToeGame.newHumanPlayer(1, "Player 1");
+				ticTacToeGame.NewHumanPlayer(0, PlayerNames[0]);
+				GameScoreController.AddNewUser(PlayerNames[0]);
+
+				ticTacToeGame.NewHumanPlayer(1, PlayerNames[1]);
+				GameScoreController.AddNewUser(PlayerNames[1]);
 			}
-			ticTacToeGame.start();
+			ticTacToeGame.Start();
 			updateWindowInfomation();
 		}
 
-		private void updateWindowInfomation() {
-			lblPlayerMode.Text = ticTacToeGame.getGameMode();
-			lblNextPlayer.Text = ticTacToeGame.getCurrentPlayer();
-			if (!ticTacToeGame.gameOver())
-				lblStatusPlayer.Text = "Playing";
+
+
+		private void mnuHighscores_Click(object sender, EventArgs e) {
+			this.Enabled = false;
+			FrmHighscores temp = new FrmHighscores(this);
+			temp.Location = this.Location + new Size(this.Size.Width / 2, this.Size.Height / 2) - new Size(temp.Size.Width / 2, temp.Size.Height / 2);
+			temp.Visible = true;
 		}
 
-		private void mnuModeHvH_Click(object sender, EventArgs e) {
-			mode = 0;
-			;
-			mnuDifficulty.Enabled = false;
-			mnuModeCvH.Checked = false;
-			mnuModeHvC.Checked = false;
-			mnuModeHvH.Checked = true;
+		private void updateWindowInfomation() {
+			lblPlayerMode.Text = ticTacToeGame.GetGameMode();
+			lblNextPlayer.Text = ticTacToeGame.GetCurrentPlayer();
+			if (!ticTacToeGame.GameOver())
+				lblStatusPlayer.Text = "Playing";
 		}
 
 		private void mnuDifficultyEasy_Click(object sender, EventArgs e) {
@@ -162,14 +206,42 @@ namespace UI {
 			mnuDifficultyNormal.Checked = false;
 		}
 
+		private void mnuModeHvH_Click(object sender, EventArgs e) {
+			mode = 0;
+			mnuDifficulty.Enabled = false;
+			mnuModeCvH.Checked = false;
+			mnuModeHvC.Checked = false;
+			mnuModeHvH.Checked = true;
+			mnuModeNetwork.Checked = false;
+		}
+		private void mnuModeNetwork_Click(object sender, EventArgs e) {
+			mode = 3;
+			mnuDifficulty.Enabled = false;
+			mnuModeCvH.Checked = false;
+			mnuModeHvC.Checked = false;
+			mnuModeNetwork.Checked = true;
+			mnuModeHvH.Checked = false;
+
+		}
+
 		private void mnuModeCvH_Click(object sender, EventArgs e) {
 			mode = 2;
-			;
 			mnuDifficulty.Enabled = true;
 			mnuModeCvH.Checked = true;
 			mnuModeHvC.Checked = false;
 			mnuModeHvH.Checked = false;
+			mnuModeNetwork.Checked = false;
 		}
+
+		private void mnuModeHvC_Click(object sender, EventArgs e) {
+			mode = 1;
+			mnuDifficulty.Enabled = true;
+			mnuModeCvH.Checked = false;
+			mnuModeHvC.Checked = true;
+			mnuModeHvH.Checked = false;
+			mnuModeNetwork.Checked = false;
+		}
+
 
 		/////////////////////////////////////////////////////////////////////////////
 
@@ -264,17 +336,11 @@ namespace UI {
 				drawWinningLine(line);
 				GameScoreController.UpdateUserScore(new GameResult(eventArgs, GameFinishState.Won));
 				GameScoreController.UpdateUserScore(new GameResult(ticTacToeGame.OtherPlayer(eventArgs), GameFinishState.Lost));
-				UpdateUserScores();
 			} else {
 				lblStatusPlayer.Text = "Draw";
-				GameScoreController.UpdateUserScore(new GameResult(eventArgs, GameFinishState.Draw));
-				GameScoreController.UpdateUserScore(new GameResult(eventArgs, GameFinishState.Draw));
-				UpdateUserScores();
+				GameScoreController.UpdateUserScore(new GameResult(ticTacToeGame.OtherPlayer(eventArgs), GameFinishState.Draw));
+				GameScoreController.UpdateUserScore(new GameResult(ticTacToeGame.OtherPlayer(ticTacToeGame.OtherPlayer(eventArgs)), GameFinishState.Draw));
 			}
-		}
-
-		private void UpdateUserScores() {
-			// throw new NotImplementedException();
 		}
 
 		private void drawWinningLine(int line) {
@@ -334,7 +400,7 @@ namespace UI {
 		/// Send command
 		/// </summary>
 		/// <param name="command">The network command to be sent</param>
-		private void SendNetworkCommand(String command) {
+		public void SendNetworkCommand(String command) {
 			Log.Debug("SendNetworkCommand Invoked");
 
 			if (isServer && netServer != null) {
@@ -355,7 +421,48 @@ namespace UI {
 		public void RecieveNetworkCommand(String command) {
 			Log.Debug("RecieveNetworkCommand Invoked");
 
-			this.Text += " " + command;
+			//this.Text += " " + command;
+
+			String[] s = command.Split(new Char[] { ' ' });
+
+			if (s.Length == 2) {
+				Log.Info("s[0]= " + s[0]);
+				Log.Info("s[1]= " + s[1]);
+				if (s[0] == "Request") {
+					PlayerNames[0] = s[1];
+
+					this.mode = 3;
+				
+					this.Invoke((MethodInvoker)delegate {
+						PlayFromNetwork();
+					});
+
+				} else if (s[0] == "Accept") {
+					PlayerNames[1] = s[1];
+					this.Invoke((MethodInvoker)delegate {
+						this.StartNewGame();
+					});
+					
+				} else {
+					int column = int.Parse(s[0]);
+					int row = int.Parse(s[1]);
+					this.Invoke((MethodInvoker)delegate {
+						this.PlayCell(ticTacToeGame.OtherPlayer(NetworkName), row, column);
+					});
+					
+				}
+			}
+		}
+
+		/// <summary>
+		/// Start game in network mode 
+		/// </summary>
+		private void PlayFromNetwork() {
+			mnuModeCvH.Checked = false;
+			mnuModeHvC.Checked = false;
+			mnuModeHvH.Checked = false;
+			mnuModeNetwork.Checked = true;
+			AddNewPlayer();
 		}
 
 		/// <summary>
@@ -376,5 +483,10 @@ namespace UI {
 			this.Text = "Tic tac toe";
 		}
 
+		public int GameMode {
+			get {
+				return this.mode;
+			}
+		}
 	}
 }

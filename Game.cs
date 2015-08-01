@@ -41,7 +41,7 @@ namespace TicTacToe {
         /// </summary>
         /// <param name="name">Name of the human</param>
         /// <param name="isHuman">false if player is computer</param>
-        public void newHumanPlayer(int playOrder, String name) {
+        public void NewHumanPlayer(int playOrder, String name) {
             if (playOrder == 0) {
                 firstPlayer = new Human(ref gameBoard, Marker.Cross, name);
             }
@@ -53,7 +53,7 @@ namespace TicTacToe {
         /// Creates new computer player.
         /// </summary>
         /// <param name="difficulty">Difficulty level of the computer player</param>
-        public void newComputerPlayer(int playOrder, Difficulty difficulty) {
+        public void NewComputerPlayer(int playOrder, Difficulty difficulty) {
             if (playOrder == 0) {
                 firstPlayer = new Computer(difficulty, ref gameBoard, Marker.Cross, "Computer");
             }
@@ -64,7 +64,7 @@ namespace TicTacToe {
         /// <summary>
         /// Starts the Game.
         /// </summary>
-        public void start() {
+        public void Start() {
             // Sets current player to player[0] if all board settings are done.
             if (firstPlayer != null && secondPlayer != null) {
                 currentPlayer = firstPlayer;
@@ -77,7 +77,7 @@ namespace TicTacToe {
         /// <summary>
         /// Resets the game.
         /// </summary>
-        public void resetGame() {
+        public void ResetGame() {
             // Reset all players and board to initial conditions.
             gameBoard.reset();
             firstPlayer = null;
@@ -85,10 +85,10 @@ namespace TicTacToe {
         }
         /// <summary>
         /// Connects real human to the Human class.
-        /// </summary>
+        /// </summary>S
         /// <param name="row">Determines the row of the cell selected by the player</param>
         /// <param name="column">Determines the column of the cell selected by the player</param>
-        public void humanPlayerInput(int row, int column) {
+        public void HumanPlayerInput(int row, int column) {
             if (currentPlayer is Human) {
                 ((Human)currentPlayer).respond(row, column);
             }
@@ -96,9 +96,9 @@ namespace TicTacToe {
         /// <summary>
         /// Toggles player when their turn is over
         /// </summary>
-        private void togglePlayer() {
+        private void TogglePlayer() {
             // If the move is valid Next all the data in the game will be updated...
-            int winLine = hasWinner(ref gameBoard);
+            int winLine = HasWinner(ref gameBoard);
             if (winLine != 0)
                 notifyObservers(winLine); // Notify observers that the game is over
             else if (isDraw(ref gameBoard))
@@ -116,15 +116,15 @@ namespace TicTacToe {
         /// Determines wether game is over
         /// </summary>
         /// <returns></returns>
-        public Boolean gameOver() {
-            return hasWinner(ref gameBoard) != 0 || isDraw(ref gameBoard);
+        public Boolean GameOver() {
+            return HasWinner(ref gameBoard) != 0 || isDraw(ref gameBoard);
         }
 
-        /// <summary>
+        /// <summary>S
         /// Determines the game has a winner
         /// </summary>
         /// <returns></returns>
-        public static int hasWinner(ref Board gameBoard) {
+        public static int HasWinner(ref Board gameBoard) {
             int i = 1;
             foreach (int[][] winningPattern in winningPatterns) {
                 int[] cell1 = winningPattern[0];
@@ -146,7 +146,7 @@ namespace TicTacToe {
         /// <param name="gameBoard"></param>
         /// <param name="marker"></param>
         /// <returns></returns>
-        public static Boolean isWinner(ref Board gameBoard, Marker marker) {
+        public static Boolean IsWinner(ref Board gameBoard, Marker marker) {
             foreach (int[][] winningPattern in winningPatterns) {
                 int[] cell1 = winningPattern[0];
                 if (gameBoard.getMarkerAt(cell1[0], cell1[1]) == marker) {
@@ -203,7 +203,7 @@ namespace TicTacToe {
         /// </summary>
         /// <param name="nameOfPlayerWon"></param>
         public void boardCellChanged(Marker[][] board) {
-            togglePlayer();
+            TogglePlayer();
         }
 
 
@@ -211,7 +211,7 @@ namespace TicTacToe {
         /// Gets Game Mode as String
         /// </summary>
         /// <returns>String of game Mode</returns>
-        public String getGameMode() {
+        public String GetGameMode() {
             if (firstPlayer is Computer) {
                 if (secondPlayer is Computer) {
                     return "Computer Vs Computer";
@@ -234,7 +234,7 @@ namespace TicTacToe {
 
         }
 
-        public string getCurrentPlayer() {
+        public string GetCurrentPlayer() {
             if (currentPlayer != null)
                 return currentPlayer.Name;
             else

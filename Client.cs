@@ -114,8 +114,8 @@ namespace Network {
 				}
 				Log.Info("ReadFromServer - Done reading");
 			} catch (Exception ex) {
-				Log.Error("Client.An error ocurred: " + ex.Message);
-			} 
+				Log.Error("Client.ReadFromServer error ocurred: " + ex.Message,ex);
+			}
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace Network {
 					clientSocketStream.Flush();
 				}
 			} catch (Exception ex) {
-				Log.Error("Client.An error ocurred: " + ex.Message, ex);
+				Log.Error("Client.WriteToServer error ocurred: " + ex.Message, ex);
 				mainUI.DisconnectNetwork();
 			}
 		}
@@ -154,20 +154,16 @@ namespace Network {
 
 					Log.Info("Client.readServerThread interrupted");
 				}
-				try {
-					if (clientSocketStream != null) {
-						clientSocketStream.Close();
-						Log.Info("Client.clientSocketStream closed");
-					}
-					if (tcpClient != null) {
-						tcpClient.Close();
-						Log.Info("Client.tcpClient closed");
-					}
-				} catch (Exception ex) {
-					Log.Error("Client.An error ocurred: " + ex.Message);
+				if (clientSocketStream != null) {
+					clientSocketStream.Close();
+					Log.Info("Client.clientSocketStream closed");
+				}
+				if (tcpClient != null) {
+					tcpClient.Close();
+					Log.Info("Client.tcpClient closed");
 				}
 			} catch (Exception ex) {
-				Log.Error("Client.An error ocurred: " + ex.Message);
+				Log.Error("Client.Disconnect error ocurred: " + ex.Message,ex);
 			}
 
 		}

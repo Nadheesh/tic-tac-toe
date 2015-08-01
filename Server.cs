@@ -82,12 +82,13 @@ namespace Network {
 						Log.Info("Server.Bytes Recieved : " + command);
 						//Call the RecieveNetworkCommand(String command) UI of the FrmMain 
 						//Ref - mainUI.setNetworkTxt(Encoding.ASCII.GetString(bytes, 0, bytesReceived));
+						//mainUI.Invoke(mainUI.RecieveNetworkCommand(),command);
 						mainUI.RecieveNetworkCommand(command);
 					}
 				}
 				Log.Info("ReadFromClient - Done reading");
 			} catch (Exception ex) {
-				Log.Error("Server.An error ocurred : " + ex.Message);
+				Log.Error("Server.ReadFromClient error ocurred : " + ex.Message,ex);
 			}
 		}
 
@@ -109,7 +110,7 @@ namespace Network {
 					serverSocketStream.Flush();
 				}
 			} catch (Exception ex) {
-				Log.Error("Server.An error ocurred : " + ex.Message);
+				Log.Error("Server.WriteToClient error ocurred : " + ex.Message,ex);
 				mainUI.DisconnectNetwork();
 			}
 		}
@@ -126,24 +127,20 @@ namespace Network {
 					isReadingClient = false;
 					Log.Info("Server.readClientThread interrupted");
 				}
-				try {
-					if (serverSocketStream != null) {
-						serverSocketStream.Close();
-						Log.Info("Server.serverSocketStream closed");
-					}
-					if (tcpClient != null) {
-						tcpClient.Close();
-						Log.Info("Server.tcpClient closed");
-					}
-					if (tcpListener != null) {
-						tcpListener.Stop();
-						Log.Info("Server.tcpListener closed");
-					}
-				} catch (Exception ex) {
-					Log.Error("Server.An error ocurred: " + ex.Message);
+				if (serverSocketStream != null) {
+					serverSocketStream.Close();
+					Log.Info("Server.serverSocketStream closed");
+				}
+				if (tcpClient != null) {
+					tcpClient.Close();
+					Log.Info("Server.tcpClient closed");
+				}
+				if (tcpListener != null) {
+					tcpListener.Stop();
+					Log.Info("Server.tcpListener closed");
 				}
 			} catch (Exception ex) {
-				Log.Error("Server.An error ocurred : " + ex.Message);
+				Log.Error("Server.Disconnect error ocurred : " + ex.Message,ex);
 			}
 		}
 	}

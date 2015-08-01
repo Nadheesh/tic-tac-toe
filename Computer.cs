@@ -158,7 +158,7 @@ namespace TicTacToe {
             List<int[]> nextMoves = new List<int[]>(); // allocate List
 
             // If gameover, i.e., no next move
-            if (Game.isWinner(ref refGameBoard, marker) || Game.isWinner(ref refGameBoard, oppMarker)) {
+            if (Game.IsWinner(ref refGameBoard, marker) || Game.IsWinner(ref refGameBoard, oppMarker)) {
                 return nextMoves;   // return empty list
             }
 
