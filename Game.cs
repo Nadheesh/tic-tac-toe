@@ -242,6 +242,7 @@ namespace TicTacToe {
         }
 
         internal string OtherPlayer(string nameOfPlayer) {
+            if (firstPlayer == null) return "";
             if (firstPlayer.Name == nameOfPlayer) {
                 return secondPlayer.Name;
             }

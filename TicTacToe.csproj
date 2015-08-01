@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
-      <HintPath>D:\Programming\Resources\log4Net\log4net.dll</HintPath>
+      <HintPath>..\..\Visual Studio 2013\Libraries\Log4Net\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -133,6 +133,10 @@
     <None Include="Resources\TTC_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComponentLibrary\ComponentLibrary.csproj">
+      <Project>{075a94c9-f28b-405f-b47a-f6352d33bfb1}</Project>
+      <Name>ComponentLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="DBCore\DBCore.csproj">
       <Project>{4a929136-417b-49b0-aa08-1f7553492109}</Project>
       <Name>DBCore</Name>

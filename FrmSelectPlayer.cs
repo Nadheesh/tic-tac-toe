@@ -20,6 +20,19 @@ namespace UI {
             this.txtPlayerName2.Text = parent.PlayerNames[1];
             if (Parent.GameMode == 3) {
                 this.btnContinue.Text = "Connect";
+                if (Parent.NoRequest == false) {
+                    txtPlayerName1.Enabled = false;
+                }
+                else {
+                    txtPlayerName2.Enabled = false;
+                }
+            }
+            else if (Parent.GameMode == 2) {
+                txtPlayerName1.Enabled = false;
+            }
+
+            else if (Parent.GameMode == 1) {
+                txtPlayerName2.Enabled = false;
             }
         }
 
@@ -28,16 +41,34 @@ namespace UI {
         }
 
         private void btnContinue_Click(object sender, EventArgs e) {
-            if (Parent.GameMode == 3) {
-                Parent.PlayerNames = new String[] { txtPlayerName1.Text, "" };
-                Parent.NetworkName = txtPlayerName1.Text;
-                Parent.SendNetworkCommand("Request " + txtPlayerName1.Text);
-                this.Close();
+            if (txtPlayerName1.Text == "") {
+                txtPlayerName1.Text = "P1";
+                txtPlayerName1.ForeColor = Color.Red;
+            }
+            else if (txtPlayerName2.Text == "") {
+                txtPlayerName2.Text = "P2";
+                txtPlayerName2.ForeColor = Color.Red;
             }
             else {
-                Parent.PlayerNames = new String[] { txtPlayerName1.Text, txtPlayerName2.Text };
-                Parent.StartNewGame();
-                this.Close();
+                if (Parent.GameMode == 3 && Parent.NoRequest) {
+                    Parent.PlayerNames[0] = txtPlayerName1.Text;
+                    Parent.NetworkName = txtPlayerName1.Text;
+                    Parent.SendNetworkCommand("Request " + txtPlayerName1.Text);
+                    this.Close();
+                }
+                else if (Parent.GameMode == 3 && !Parent.NoRequest) {
+                    Parent.PlayerNames[1] = txtPlayerName2.Text;
+                    Parent.NetworkName = txtPlayerName2.Text;
+                    Parent.SendNetworkCommand("Accept " + txtPlayerName2.Text);
+                    Parent.NoRequest = true;
+                    Parent.StartNewGame();
+                    this.Close();
+                }
+                else {
+                    Parent.PlayerNames = new String[] { txtPlayerName1.Text, txtPlayerName2.Text };
+                    Parent.StartNewGame();
+                    this.Close();
+                }
             }
         }
 
