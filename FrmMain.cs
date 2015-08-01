@@ -246,8 +246,8 @@ namespace UI {
                 }
                 GameScoreController.AddNewUser("Computer");
 
-                ticTacToeGame.NewHumanPlayer(1, PlayerNames[0]);
-                GameScoreController.AddNewUser(PlayerNames[0]);
+                ticTacToeGame.NewHumanPlayer(1, PlayerNames[1]);
+                GameScoreController.AddNewUser(PlayerNames[1]);
             }
             else {
                 ticTacToeGame.NewHumanPlayer(0, PlayerNames[0]);
