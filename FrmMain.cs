@@ -66,6 +66,17 @@ namespace UI {
 			this.Dispose();
 		}
 
+		private void mnuRestart_Click(object sender, EventArgs e) {
+			System.Diagnostics.Process.Start(Assembly.GetExecutingAssembly().Location);
+			Environment.Exit(0);
+		}
+
+
+		private void aboutToolStripMenuItem1_Click(object sender, EventArgs e) {
+			AboutBox AboutBox = new AboutBox();
+			AboutBox.ShowDialog();
+		}
+
 		private void picGridCell_Clicked(object sender, EventArgs e) {
 			if (sender is PictureBox) {
 				PictureBox p = (PictureBox)sender;
@@ -209,37 +220,69 @@ namespace UI {
 		private void mnuModeHvH_Click(object sender, EventArgs e) {
 			mode = 0;
 			mnuDifficulty.Enabled = false;
+
 			mnuModeCvH.Checked = false;
 			mnuModeHvC.Checked = false;
 			mnuModeHvH.Checked = true;
 			mnuModeNetwork.Checked = false;
+
+			DisableNetworkPlay();
 		}
 		private void mnuModeNetwork_Click(object sender, EventArgs e) {
 			mode = 3;
 			mnuDifficulty.Enabled = false;
+
 			mnuModeCvH.Checked = false;
 			mnuModeHvC.Checked = false;
-			mnuModeNetwork.Checked = true;
 			mnuModeHvH.Checked = false;
+			mnuModeNetwork.Checked = true;
+
+			//Enable network settings
+			networkToolStripMenuItem.Enabled = true;
+
+			//Disable start new game
+			newToolStripMenuItem.Enabled = false;
 
 		}
 
 		private void mnuModeCvH_Click(object sender, EventArgs e) {
 			mode = 2;
 			mnuDifficulty.Enabled = true;
+
 			mnuModeCvH.Checked = true;
 			mnuModeHvC.Checked = false;
 			mnuModeHvH.Checked = false;
 			mnuModeNetwork.Checked = false;
+
+			DisableNetworkPlay();
 		}
 
 		private void mnuModeHvC_Click(object sender, EventArgs e) {
 			mode = 1;
 			mnuDifficulty.Enabled = true;
+
 			mnuModeCvH.Checked = false;
 			mnuModeHvC.Checked = true;
 			mnuModeHvH.Checked = false;
 			mnuModeNetwork.Checked = false;
+
+			DisableNetworkPlay();
+		}
+
+		private void DisableNetworkPlay() {
+			//Disable network settings
+			DisconnectNetwork();
+			networkToolStripMenuItem.Enabled = false;
+
+			disconnectToolStripMenuItem.Enabled = false;
+			startServerToolStripMenuItem.Enabled = true;
+			connectToServerToolStripMenuItem.Enabled = true;
+
+			startServerToolStripMenuItem.Checked = false;
+			connectToServerToolStripMenuItem.Checked = false;
+
+			//Enable start new game
+			newToolStripMenuItem.Enabled = true;
 		}
 
 
@@ -353,14 +396,46 @@ namespace UI {
 
 		private void startServerToolStripMenuItem_Click(object sender, EventArgs e) {
 			InititiateServer();
+
+			startServerToolStripMenuItem.Checked = true;
+			connectToServerToolStripMenuItem.Checked = false;
+
+			//Disable connecting and enable disconnecting
+			startServerToolStripMenuItem.Enabled = false;
+			connectToServerToolStripMenuItem.Enabled = false;
+			disconnectToolStripMenuItem.Enabled = true;
+
+			//Enable new game
+			newToolStripMenuItem.Enabled = true;
 		}
 
 		private void connectToServerToolStripMenuItem_Click(object sender, EventArgs e) {
 			ConnectToServer();
+
+			startServerToolStripMenuItem.Checked = false;
+			connectToServerToolStripMenuItem.Checked = true;
+
+			//Disable connecting and enable disconnecting
+			startServerToolStripMenuItem.Enabled = false;
+			connectToServerToolStripMenuItem.Enabled = false;
+			disconnectToolStripMenuItem.Enabled = true;
+
+			//Enable new game
+			newToolStripMenuItem.Enabled = true;
 		}
 
 		private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
 			DisconnectNetwork();
+
+			//Disable disconnecting and enable connecting
+			startServerToolStripMenuItem.Checked = false;
+			connectToServerToolStripMenuItem.Checked = false;
+			startServerToolStripMenuItem.Enabled = true;
+			connectToServerToolStripMenuItem.Enabled = true;
+			disconnectToolStripMenuItem.Enabled = false;
+
+			//Enable new game
+			newToolStripMenuItem.Enabled = false;
 		}
 		///////////////////////////////////Network Methods/////////////////////////////////////////////
 
@@ -432,7 +507,7 @@ namespace UI {
 					PlayerNames[0] = s[1];
 
 					this.mode = 3;
-				
+
 					this.Invoke((MethodInvoker)delegate {
 						PlayFromNetwork();
 					});
@@ -442,14 +517,14 @@ namespace UI {
 					this.Invoke((MethodInvoker)delegate {
 						this.StartNewGame();
 					});
-					
+
 				} else {
 					int column = int.Parse(s[0]);
 					int row = int.Parse(s[1]);
 					this.Invoke((MethodInvoker)delegate {
 						this.PlayCell(ticTacToeGame.OtherPlayer(NetworkName), row, column);
 					});
-					
+
 				}
 			}
 		}
@@ -488,5 +563,8 @@ namespace UI {
 				return this.mode;
 			}
 		}
+
+
+
 	}
 }

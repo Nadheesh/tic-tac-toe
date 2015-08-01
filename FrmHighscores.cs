@@ -16,11 +16,21 @@ namespace UI {
     public partial class FrmHighscores : Form {
 
         private FrmMain Parent { get; set; }
+		private ListViewColumnSorter lvwColumnSorter;
 
         public FrmHighscores(FrmMain parent) {
             InitializeComponent();
+
             this.Parent = parent;
             parent.Enabled = false;
+
+			// Create an instance of a ListView column sorter and assign it 
+			// to the ListView control.
+			lvwColumnSorter = new ListViewColumnSorter();
+			this.lstScoreView.ListViewItemSorter = lvwColumnSorter;
+
+			
+
         }
 
         private void btnClear_Click(object sender, EventArgs e) {
@@ -46,7 +56,26 @@ namespace UI {
                 foreach (DBModel.ScoreCard itm in ar) {
                     this.lstScoreView.Items.Add(new ListViewItem(new String[] { itm.userName, itm.won.ToString(), itm.draw.ToString(), itm.lost.ToString() }));
                 }
-        }
+		}
+
+		private void lstScoreView_ColumnClick(object sender, ColumnClickEventArgs e) {
+			// Determine if clicked column is already the column that is being sorted.
+			if (e.Column == lvwColumnSorter.SortColumn) {
+				// Reverse the current sort direction for this column.
+				if (lvwColumnSorter.Order == SortOrder.Ascending) {
+					lvwColumnSorter.Order = SortOrder.Descending;
+				} else {
+					lvwColumnSorter.Order = SortOrder.Ascending;
+				}
+			} else {
+				// Set the column number that is to be sorted; default to ascending.
+				lvwColumnSorter.SortColumn = e.Column;
+				lvwColumnSorter.Order = SortOrder.Ascending;
+			}
+
+			// Perform the sort with these new sort options.
+			this.lstScoreView.Sort();
+		}
 
     }
 }
