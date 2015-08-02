@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DBController;
 using DBModel;
 
-namespace TicTacToeTest {
+namespace DBCoreTestLib {
 
 	[TestClass]
 	 public class DBTest {
