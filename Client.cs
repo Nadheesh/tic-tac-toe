@@ -22,6 +22,8 @@ namespace Network {
 
 		private const int SERVER_PORT = 55650;// Server port - Index numbers of developers 556 and 650
 
+		private String serverIPAddress;
+
 		private volatile bool isReadingServer = true;// Loop control variables for server reading thread
 
 		private NetworkStream clientSocketStream;// TCP  NetworkStream objects for client and server
@@ -36,9 +38,10 @@ namespace Network {
 		/// Connect to server
 		/// </summary>
 		/// <param name="serverIP">IP address of the server</param>
-		public void ConnectToServer() {
+		public void ConnectToServer(String serverIPAddress) {
 			Log.Debug("Client.ConnectToServer Invoked");
 
+			this.serverIPAddress = serverIPAddress;
 			// Connect to server
 			readServerThread = new Thread(new ThreadStart(ReadFromServer));
 			readServerThread.Start();
@@ -83,8 +86,8 @@ namespace Network {
 			Log.Debug("Client.ReadFromServer Invoked");
 
 			try {
-
-				tcpClient = new TcpClient(GetDefaultGateway().ToString(), SERVER_PORT);
+				Log.Info("Client.ReadFromServer Connecting to ServerIP - " + serverIPAddress + " ,Port - " + SERVER_PORT);
+				tcpClient = new TcpClient(serverIPAddress, SERVER_PORT);
 				clientSocketStream = tcpClient.GetStream();
 
 				WriteToServer("Client : Connected");
@@ -114,7 +117,7 @@ namespace Network {
 				}
 				Log.Info("ReadFromServer - Done reading");
 			} catch (Exception ex) {
-				Log.Error("Client.ReadFromServer error ocurred: " + ex.Message,ex);
+				Log.Error("Client.ReadFromServer error ocurred: " + ex.Message, ex);
 			}
 		}
 
@@ -163,7 +166,7 @@ namespace Network {
 					Log.Info("Client.tcpClient closed");
 				}
 			} catch (Exception ex) {
-				Log.Error("Client.Disconnect error ocurred: " + ex.Message,ex);
+				Log.Error("Client.Disconnect error ocurred: " + ex.Message, ex);
 			}
 
 		}
