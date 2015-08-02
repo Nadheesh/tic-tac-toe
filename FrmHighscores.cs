@@ -15,13 +15,13 @@ using System.Collections;
 namespace UI {
     public partial class FrmHighscores : Form {
 
-        private FrmMain Parent { get; set; }
+        private FrmMain frmMain { get; set; }
 		private ListViewColumnSorter lvwColumnSorter;
 
         public FrmHighscores(FrmMain parent) {
             InitializeComponent();
 
-            this.Parent = parent;
+            this.frmMain = parent;
             parent.Enabled = false;
 
 			// Create an instance of a ListView column sorter and assign it 
@@ -43,7 +43,7 @@ namespace UI {
         }
 
         private void FrmHighscores_FormClosed(object sender, FormClosedEventArgs e) {
-            Parent.Enabled = true;
+            frmMain.Enabled = true;
         }
         private void btnOK_Click(object sender, EventArgs e) {
             this.Close();
