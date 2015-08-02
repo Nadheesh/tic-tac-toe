@@ -81,6 +81,12 @@
       <DependentUpon>FrmSelectPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
+    <Compile Include="GraphicalOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphicalOverlay.designer.cs">
+      <DependentUpon>GraphicalOverlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Human.cs" />
     <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Player.cs" />
@@ -133,10 +139,6 @@
     <None Include="Resources\TTC_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ComponentLibrary\ComponentLibrary.csproj">
-      <Project>{075a94c9-f28b-405f-b47a-f6352d33bfb1}</Project>
-      <Name>ComponentLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="DBCore\DBCore.csproj">
       <Project>{4a929136-417b-49b0-aa08-1f7553492109}</Project>
       <Name>DBCore</Name>

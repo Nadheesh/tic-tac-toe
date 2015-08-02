@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBCore", "DBCore\DBCore.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBCoreTest", "TicTacToeTest\DBCoreTest.csproj", "{16735590-7893-4A73-B0A7-A8420652CBA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentLibrary", "ComponentLibrary\ComponentLibrary.csproj", "{075A94C9-F28B-405F-B47A-F6352D33BFB1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{16735590-7893-4A73-B0A7-A8420652CBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16735590-7893-4A73-B0A7-A8420652CBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16735590-7893-4A73-B0A7-A8420652CBA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{075A94C9-F28B-405F-B47A-F6352D33BFB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{075A94C9-F28B-405F-B47A-F6352D33BFB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{075A94C9-F28B-405F-B47A-F6352D33BFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{075A94C9-F28B-405F-B47A-F6352D33BFB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
