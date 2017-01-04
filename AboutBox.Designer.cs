@@ -39,7 +39,7 @@
 			this.picBox.Name = "picBox";
 			this.picBox.Size = new System.Drawing.Size(269, 232);
 			this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.picBox.TabIndex = 0;
+			this.picBox.TabIndex = 1*0;
 			this.picBox.TabStop = false;
 			// 
 			// labelProductName
